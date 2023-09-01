@@ -1,10 +1,14 @@
 {
   "name": "master-logger",
   "displayName": "Lazy Logger",
-  "description": "",
-  "publisher": "NaSH",
+  "description": "Say 'good bye' to manual and messy log statements.",
+  "publisher": "NipunHimash",
   "icon": "./public/icon.png",
-  "version": "0.0.1",
+  "version": "0.1.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/himaSH97/master-logger.git"
+  },
   "engines": {
     "vscode": "^1.81.0"
   },
@@ -22,11 +26,11 @@
     ],
     "keybindings": [
       {
-          "command": "master-logger.wrapInStatement",
-          "key": "ctrl+alt+a",
-          "when": "editorTextFocus"
+        "command": "master-logger.wrapInStatement",
+        "key": "ctrl+alt+a",
+        "when": "editorTextFocus"
       }
-  ]
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
