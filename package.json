@@ -1,7 +1,9 @@
 {
   "name": "master-logger",
-  "displayName": "Master Logger",
+  "displayName": "Lazy Logger",
   "description": "",
+  "publisher": "NaSH",
+  "icon": "./public/icon.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.81.0"
@@ -16,10 +18,6 @@
       {
         "command": "master-logger.wrapInStatement",
         "title": "Wrap Please"
-      },
-      {
-        "command": "master-logger.findEnd",
-        "title": "find End"
       }
     ],
     "keybindings": [
