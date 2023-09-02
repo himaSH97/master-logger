@@ -10,7 +10,8 @@ No more writing **print()** in python manually. This is a Python extension to ad
 ## Usage
 Select a variable and press **ctrl + alt + a**. Output will show like below on the next line.
 
-![Preview image](./public/code.png)
+
+![Alt text](public/anim.gif)
 
 ## Requirements
 Files with .py extension.

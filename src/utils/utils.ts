@@ -16,20 +16,30 @@ const lang = {
   rust: ",",
 };
 
-export const getStatement = (customStatemnt: statementType): string => {
+export const getStatement = (
+  customStatemnt: statementType,
+  indentation: string,
+  isFunction: boolean
+): string => {
   const editorLanguage = customStatemnt.language;
+  const space = " ";
 
   let content = `"${parseFileName(customStatemnt.fileName)} : ${
     customStatemnt.lineNo
   } : ${customStatemnt.selectedText}"`;
-  
+
   if (editorLanguage === "python") {
-    return `print(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    let tab = "\t";
+    let st = `${indentation}print(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    if (isFunction) {
+      st = tab + st;
+    }
+    return st;
   } else if (
     editorLanguage === "javascript" ||
     editorLanguage === "typescript"
   ) {
-    return `console.log(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    return `${indentation}console.log(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
   } else if (editorLanguage === "csharp") {
     return `Console.WriteLine(${content} ${lang[editorLanguage]} ${customStatemnt.selectedText})`;
   } else if (editorLanguage === "java") {
@@ -37,7 +47,7 @@ export const getStatement = (customStatemnt: statementType): string => {
   } else if (editorLanguage === "rust") {
     return ` println!(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
   }
-  
+
   return `Console.WriteLine(${content},  ${customStatemnt.selectedText})`;
 };
 

@@ -4,7 +4,7 @@
   "description": "Say 'good bye' to manual and messy log statements.",
   "publisher": "NipunHimash",
   "icon": "./public/icon.png",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/himaSH97/master-logger.git"
