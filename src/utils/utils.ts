@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { createPythonStatement } from "../languages/python/python";
+
 export type statementType = {
   language: string;
   fileName: string;
   lineNo?: number;
   selectedText?: string;
+  isFunction?: boolean;
+  indentation?: string;
 };
 
-const lang = {
+export const lang = {
   python: ",",
   javascript: ",",
   typescript: ",",
@@ -16,39 +20,30 @@ const lang = {
   rust: ",",
 };
 
-export const getStatement = (
-  customStatemnt: statementType,
-  indentation: string,
-  isFunction: boolean
-): string => {
-  const editorLanguage = customStatemnt.language;
-  const space = " ";
+export const getStatement = (logInfo: statementType): string => {
+  const editorLanguage = logInfo.language;
 
-  let content = `"${parseFileName(customStatemnt.fileName)} : ${
-    customStatemnt.lineNo
-  } : ${customStatemnt.selectedText}"`;
+  let content = `"${parseFileName(logInfo.fileName)} : ${logInfo.lineNo} : ${
+    logInfo.selectedText
+  }"`;
 
   if (editorLanguage === "python") {
-    let tab = "\t";
-    let st = `${indentation}print(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
-    if (isFunction) {
-      st = tab + st;
-    }
-    return st;
+    let pythonStatement = createPythonStatement(logInfo, content);  
+    return pythonStatement;
   } else if (
     editorLanguage === "javascript" ||
     editorLanguage === "typescript"
   ) {
-    return `${indentation}console.log(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    return `${logInfo.indentation}console.log(${content}${lang[editorLanguage]} ${logInfo.selectedText})`;
   } else if (editorLanguage === "csharp") {
-    return `Console.WriteLine(${content} ${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    return `Console.WriteLine(${content} ${lang[editorLanguage]} ${logInfo.selectedText})`;
   } else if (editorLanguage === "java") {
-    return `System.out.println(${content} ${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    return `System.out.println(${content} ${lang[editorLanguage]} ${logInfo.selectedText})`;
   } else if (editorLanguage === "rust") {
-    return ` println!(${content}${lang[editorLanguage]} ${customStatemnt.selectedText})`;
+    return ` println!(${content}${lang[editorLanguage]} ${logInfo.selectedText})`;
   }
 
-  return `Console.WriteLine(${content},  ${customStatemnt.selectedText})`;
+  return `Console.WriteLine(${content},  ${logInfo.selectedText})`;
 };
 
 const parseFileName = (fileName: string): string => {

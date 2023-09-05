@@ -17,19 +17,21 @@ export function activate(context: vscode.ExtensionContext) {
         const fileLanguageId = editor.document.languageId;
         const totalLines = editor.document.lineCount;
 
-        let statement: statementType = {
+        let statementInfo: statementType = {
           language: fileLanguageId,
           fileName: fileName,
           selectedText: selectedText,
+          isFunction:isFunction,
+          indentation:indentation,
         };
 
         if (selectedText !== "") {
           const currentPosition = editor.selection.active;
           let newPosition = currentPosition.with(currentPosition.line + 1, 0);
-          statement.lineNo = currentPosition.line + 1;
+          statementInfo.lineNo = currentPosition.line + 1;
 
           editor.edit((editBuilder) => {
-            let logStatement =  getStatement(statement,indentation,isFunction) + "\n";
+            let logStatement =  getStatement(statementInfo) + "\n";
             if (currentPosition.line + 1 === totalLines) {
               logStatement = "\n"+ logStatement;
             }
@@ -44,5 +46,4 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
