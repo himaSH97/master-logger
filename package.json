@@ -30,7 +30,19 @@
         "key": "ctrl+alt+a",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": [
+      {
+          "title": "Lazy Logger",
+          "properties": {
+              "lazyLogger.userPrefix": {
+                  "type": "string",
+                  "default": "🫶🫶🫶🫶",
+                  "description": "Enter your custom"
+              }
+          }
+      }
+  ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-
-import { createPythonStatement } from "../languages/python/python";
+import * as vscode from "vscode";
+import { getPythonStatement } from "../languages/python/python";
 
 export type statementType = {
   language: string;
@@ -20,33 +20,35 @@ export const lang = {
   rust: ",",
 };
 
-export const getStatement = (logInfo: statementType): string => {
-  const editorLanguage = logInfo.language;
-
-  let content = `"${parseFileName(logInfo.fileName)} : ${logInfo.lineNo} : ${
-    logInfo.selectedText
+export const getStatement = (editor: vscode.TextEditor): string => {
+  const editorLanguage = editor.document.languageId;
+  let content = `"${parseFileName(editor.document.fileName)} : ${editor.selection.active.line + 1} : ${
+    editor.document.getText(editor.selection)
   }"`;
 
-  if (editorLanguage === "python") {
-    let pythonStatement = createPythonStatement(logInfo, content);  
-    return pythonStatement;
-  } else if (
+  if(editor.document.languageId === 'python'){
+    let pyStatement= getPythonStatement(editor);  
+    return pyStatement;
+  }else if (
     editorLanguage === "javascript" ||
     editorLanguage === "typescript"
   ) {
-    return `${logInfo.indentation}console.log(${content}${lang[editorLanguage]} ${logInfo.selectedText})`;
+    return `console.log(${content}${lang[editorLanguage]} ${editor.document.getText(editor.selection)})`;
   } else if (editorLanguage === "csharp") {
-    return `Console.WriteLine(${content} ${lang[editorLanguage]} ${logInfo.selectedText})`;
+    return `Console.WriteLine(${content} ${lang[editorLanguage]} ${editor.document.getText(editor.selection)})`;
   } else if (editorLanguage === "java") {
-    return `System.out.println(${content} ${lang[editorLanguage]} ${logInfo.selectedText})`;
+    //work heredsgvcsd
+
+    return `System.out.println(${content} ${lang[editorLanguage]} ${editor.document.getText(editor.selection)})`;
   } else if (editorLanguage === "rust") {
-    return ` println!(${content}${lang[editorLanguage]} ${logInfo.selectedText})`;
+    return ` println(${content}${lang[editorLanguage]} ${editor.document.getText(editor.selection)})`;
   }
 
-  return `Console.WriteLine(${content},  ${logInfo.selectedText})`;
+  return ` println(${content}, ${editor.document.getText(editor.selection)})`;
 };
 
-const parseFileName = (fileName: string): string => {
+
+export const parseFileName = (fileName: string): string => {
   let fileNameWithoutPath = "file";
   if (fileName.includes("/")) {
     fileNameWithoutPath = fileName.split("/").pop() || fileNameWithoutPath;
