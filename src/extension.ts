@@ -10,6 +10,12 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    const editorLanguage = editor.document.languageId;
+    if (editorLanguage !== "python") {
+      vscode.window.showErrorMessage("Only Python supported for now!");
+      return;
+    }
+
     const insertSpaces = editor.options.insertSpaces;
 
     if (insertSpaces) {
@@ -34,12 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage(`Tab Indentation Enabled`);
         await vscode.commands.executeCommand("editor.action.indentationToTabs");
       }
-    }
-
-    const editorLanguage = editor.document.languageId;
-    if (editorLanguage !== "python") {
-      vscode.window.showErrorMessage("Only Python supported for now!");
-      return;
     }
 
     const selection = editor.selection;
